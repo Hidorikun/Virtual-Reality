@@ -218,8 +218,8 @@ GameObject:
   - component: {fileID: 328873124}
   - component: {fileID: 328873123}
   m_Layer: 0
-  m_Name: Terrain
-  m_TagString: Untagged
+  m_Name: Ground
+  m_TagString: Surface
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1064,6 +1064,9 @@ MonoBehaviour:
   rotationSpeed: 100
   membersNormalSpeed: 200
   membersRunningSpeed: 300
+  jumpForward: {x: 0, y: 2, z: 0}
+  jumpForce: 2
+  isGrounded: 0
 --- !u!95 &2095250110
 Animator:
   serializedVersion: 3
@@ -1089,7 +1092,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2095250108}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4, z: 0}
+  m_LocalPosition: {x: 0, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 866396132}

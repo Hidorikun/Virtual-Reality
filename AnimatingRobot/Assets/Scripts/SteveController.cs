@@ -8,9 +8,10 @@ public enum CharacterState
     idle,
     walking, 
     running, 
-    jumping
+    jumping, 
 }
 
+[RequireComponent(typeof(Rigidbody))]
 public class SteveController : MonoBehaviour {
 
     public MemberController left_arm; 
@@ -25,17 +26,22 @@ public class SteveController : MonoBehaviour {
     public float rotationSpeed = 100.0f;
 
     public float membersNormalSpeed = 200.0f; 
-    public float membersRunningSpeed = 300.0f; 
+    public float membersRunningSpeed = 300.0f;
+
+    public Vector3 jumpForward = new Vector3(0.0f, 2.0f, 0.0f);
+    public float jumpForce = 2.0f; 
+    public bool isGrounded;
+    Rigidbody rigidbody;
 
     // Use this for initialization
     void Start () {
-		
-	}
+        rigidbody = GetComponent<Rigidbody>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        GetState();
+        _state = GetState();
 
         if (_state == CharacterState.walking)
             this.Move(this.normalSpeed, this.membersNormalSpeed);
@@ -45,44 +51,50 @@ public class SteveController : MonoBehaviour {
 
         if (_state == CharacterState.jumping)
             this.Jump();
-
+       
         if (_state == CharacterState.idle)
             this.ReturnToIdle(this.membersRunningSpeed);
+
+        this.Spin();
     }
 
-    void GetState()
+    CharacterState GetState()
     {
+        if (Input.GetButton("Jump") && this.isGrounded)
+        {
+            return CharacterState.jumping;
+        }
 
         if (Input.GetButton("Vertical"))
         {
             if (Input.GetButton("Sprint"))
             {
-                _state = CharacterState.running; 
+               return CharacterState.running; 
             }
-            else
-            {
-                _state = CharacterState.walking;
-            }
+           
+            return CharacterState.walking;
+            
         }
-        else if (Input.GetButton("Jump"))
-        {
-            _state = CharacterState.walking;
-        }
-        else
-        {
-            _state = CharacterState.idle;
-        }
+
+        return CharacterState.idle;
+    }
+
+    void Spin()
+    {
+        float rotation = Input.GetAxis("Horizontal") * this.rotationSpeed * Time.deltaTime;
+        transform.Rotate(0, rotation, 0);
+    }
+
+    void MoveVertical(float playerSpeed)
+    {
+        float translation = Input.GetAxis("Vertical") * playerSpeed * Time.deltaTime;
+        transform.Translate(0, 0, translation);
     }
 
     void Move(float playerSpeed, float membersSpeed)
     {
         this.MoveMembers(membersSpeed);
-
-        float translation = Input.GetAxis("Vertical") * playerSpeed * Time.deltaTime;
-        float rotation = Input.GetAxis("Horizontal") * this.rotationSpeed * Time.deltaTime; 
-        
-        transform.Translate(0, 0, translation);
-        transform.Rotate(0, rotation, 0);
+        this.MoveVertical(playerSpeed);
     }
 
     private void MoveMembers(float speed)
@@ -101,10 +113,27 @@ public class SteveController : MonoBehaviour {
         this.left_leg.ReturnToIdle(speed); 
         this.right_leg.ReturnToIdle(speed); 
     }
-
     private void Jump()
     {
-        throw new NotImplementedException();
+        rigidbody.AddForce(this.jumpForward * this.jumpForce, ForceMode.Impulse);
     }
-   
+
+    void OnCollisionEnter(Collision other)
+    { 
+        if (other.gameObject.tag == "Surface")
+        {
+            isGrounded = true;
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+
+        if (other.gameObject.tag == "Surface")
+        {
+            isGrounded = false;
+        }
+    }
+  
+
 }
