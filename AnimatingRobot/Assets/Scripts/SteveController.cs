@@ -8,16 +8,21 @@ public enum CharacterState
     idle,
     walking, 
     running, 
-    jumping, 
+    jumping,
+    dancing,
 }
 
 [RequireComponent(typeof(Rigidbody))]
 public class SteveController : MonoBehaviour {
 
     public MemberController left_arm; 
+    public MemberController left_forearm; 
     public MemberController right_arm; 
+    public MemberController right_forearm; 
     public MemberController left_leg; 
+    public MemberController left_lower_leg; 
     public MemberController right_leg;
+    public MemberController right_lower_leg;
 
     public CharacterState _state;
     public float normalSpeed = 10.0f;
@@ -43,6 +48,9 @@ public class SteveController : MonoBehaviour {
 
         _state = GetState();
 
+        if (_state == CharacterState.dancing)
+            this.Move(this.normalSpeed, this.membersNormalSpeed);
+
         if (_state == CharacterState.walking)
             this.Move(this.normalSpeed, this.membersNormalSpeed);
 
@@ -60,6 +68,7 @@ public class SteveController : MonoBehaviour {
 
     CharacterState GetState()
     {
+        
         if (Input.GetButton("Jump") && this.isGrounded)
         {
             return CharacterState.jumping;
@@ -99,19 +108,27 @@ public class SteveController : MonoBehaviour {
 
     private void MoveMembers(float speed)
     {
-        this.left_arm.Move(speed); 
-        this.right_arm.Move(speed); 
-        this.left_leg.Move(speed); 
+        this.left_arm.Move(speed);
+        this.left_forearm.Move(speed / 2); 
+        this.right_arm.Move(speed);
+        this.right_forearm.Move(speed / 2); 
+        this.left_leg.Move(speed);
+        this.left_lower_leg.Move(speed / 2); 
         this.right_leg.Move(speed); 
+        this.right_lower_leg.Move(speed / 2); 
 
     }
 
     private void ReturnToIdle(float speed)
     {
-        this.left_arm.ReturnToIdle(speed); 
-        this.right_arm.ReturnToIdle(speed); 
-        this.left_leg.ReturnToIdle(speed); 
-        this.right_leg.ReturnToIdle(speed); 
+        this.left_arm.ReturnToIdle(speed);
+        this.left_forearm.ReturnToIdle(speed / 2); 
+        this.right_arm.ReturnToIdle(speed);
+        this.right_forearm.ReturnToIdle(speed / 2); 
+        this.left_leg.ReturnToIdle(speed);
+        this.left_lower_leg.ReturnToIdle(speed / 2);
+        this.right_leg.ReturnToIdle(speed);
+        this.right_lower_leg.ReturnToIdle(speed / 2); 
     }
     private void Jump()
     {
