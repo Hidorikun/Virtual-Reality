@@ -53,9 +53,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\RigidbodyExtension\Example\DrawLine.cs" />
+     <Compile Include="Assets\RigidbodyExtension\Scripts\RigidbodyExtension.cs" />
      <Compile Include="Assets\Scripts\CameraController.cs" />
      <Compile Include="Assets\Scripts\MemberController.cs" />
+     <Compile Include="Assets\Scripts\Shooter.cs" />
      <Compile Include="Assets\Scripts\SteveController.cs" />
+     <Compile Include="Assets\Scripts\Tidy.cs" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/George/Desktop/_Drive/git_projects/Faculty/Virtual-Reality/AnimatingRobot/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
