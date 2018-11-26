@@ -7,9 +7,9 @@ public class Shooter : MonoBehaviour {
     public Rigidbody projectile;
     public GameObject cannonHead; 
     public Transform shotPosition;
-    public float shotForce = 4000f;
-    public float moveSpeed = 10f; 
-    
+    public float shotForce = 40000f;
+    public float moveSpeed = 20f;
+    public GameObject muzzleFlash; 
 
 	// Use this for initialization
 	void Start () {
@@ -20,12 +20,13 @@ public class Shooter : MonoBehaviour {
 	void Update () {
         float h = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
         float v = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
-        
-        transform.Rotate(v, h, 0);
+
+        cannonHead.transform.Rotate(v, h, 0);
 
         if (Input.GetButtonUp("Jump"))
         {
-            Rigidbody shot = Instantiate(projectile, shotPosition.position, shotPosition.rotation) as Rigidbody; 
+            Rigidbody shot = Instantiate(projectile, shotPosition.position, shotPosition.rotation) as Rigidbody;
+            Destroy(Instantiate(muzzleFlash, shotPosition.position, shotPosition.rotation), 1);
             shot.AddForce(shotPosition.forward * shotForce); 
         }
 	}
