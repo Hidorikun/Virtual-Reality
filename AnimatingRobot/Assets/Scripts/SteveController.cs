@@ -69,9 +69,10 @@ public class SteveController : MonoBehaviour {
     CharacterState GetState()
     {
         
-        if (Input.GetButton("Jump") && this.isGrounded)
+        if (Input.GetButton("Jump") )
+            //&& this.isGrounded)
         {
-            return CharacterState.jumping;
+            return CharacterState.dancing;
         }
 
         if (Input.GetButton("Vertical"))
@@ -109,12 +110,12 @@ public class SteveController : MonoBehaviour {
     private void MoveMembers(float speed)
     {
         this.left_arm.Move(speed);
-        this.left_forearm.Move(speed / 2); 
+        this.left_forearm.Move(speed / 2);
         this.right_arm.Move(speed);
-        this.right_forearm.Move(speed / 2); 
+        this.right_forearm.Move(speed / 2);
         this.left_leg.Move(speed);
-        this.left_lower_leg.Move(speed / 2); 
-        this.right_leg.Move(speed); 
+        this.left_lower_leg.Move(speed / 2);
+        this.right_leg.Move(speed);
         this.right_lower_leg.Move(speed / 2); 
 
     }
@@ -122,13 +123,13 @@ public class SteveController : MonoBehaviour {
     private void ReturnToIdle(float speed)
     {
         this.left_arm.ReturnToIdle(speed);
-        this.left_forearm.ReturnToIdle(speed / 2); 
+        this.left_forearm.ReturnToIdle(50/100 * speed); 
         this.right_arm.ReturnToIdle(speed);
-        this.right_forearm.ReturnToIdle(speed / 2); 
+        this.right_forearm.ReturnToIdle(50/100 * speed); 
         this.left_leg.ReturnToIdle(speed);
-        this.left_lower_leg.ReturnToIdle(speed / 2);
+        this.left_lower_leg.ReturnToIdle(80/100 * speed);
         this.right_leg.ReturnToIdle(speed);
-        this.right_lower_leg.ReturnToIdle(speed / 2); 
+        this.right_lower_leg.ReturnToIdle(80/100 * speed); 
     }
     private void Jump()
     {
